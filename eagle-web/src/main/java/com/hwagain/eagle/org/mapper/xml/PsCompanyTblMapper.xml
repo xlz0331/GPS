@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.org.mapper.PsCompanyTblMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.org.entity.PsCompanyTbl">
+		<id column="fd_id" property="fdId" />
+		<result column="company" property="company" />
+		<result column="eff_date" property="effDate" />
+		<result column="eff_status" property="effStatus" />
+		<result column="descr" property="descr" />
+		<result column="descr_short" property="descrShort" />
+		<result column="address1" property="address1" />
+		<result column="company_id" property="companyId" />
+		<result column="sequence" property="sequence" />
+		<result column="is_org" property="isOrg" />
+		<result column="is_salary" property="isSalary" />
+		<result column="is_delete" property="isDelete" />
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.region.mapper.RegionHistoryMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.region.entity.RegionHistory">
+		<id column="id" property="id" />
+		<result column="fd_id" property="fdId" />
+		<result column="supplier_name" property="supplierName" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="province" property="province" />
+		<result column="material" property="material" />
+		<result column="city" property="city" />
+		<result column="effdt" property="effdt" />
+		<result column="region_name" property="regionName" />
+		<result column="extra_subsidy" property="extraSubsidy" />
+		<result column="region_distance" property="regionDistance" />
+		<result column="min_region_distance" property="minRegionDistance" />
+		<result column="reason" property="reason" />
+		<result column="version" property="version" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+	</resultMap>
+	
+	<sql id="tableColumn">
+		fd_id,supplier_name,supplier_id,province,material,city,effdt,region_name,
+		extra_subsidy,subsidy,region_distance,min_region_distance,
+		reason,create_time,creator_id,last_alter_time,last_altor_id
+	</sql>
+
+	<update id="insertBatchByRegionTable" parameterType="Object">
+		insert into region_history(
+		<include refid="tableColumn"></include>,version
+		)
+		select 
+		<include refid="tableColumn"></include>,(select IFNULL(MAX(version),0)+1 from region_history)
+		from region
+	</update>
+	
+	<select id="findVersions" parameterType="Object" resultMap="BaseResultMap">
+		SELECT DISTINCT version,last_altor_id,last_alter_time   FROM `region_history` 
+	</select>
+</mapper>

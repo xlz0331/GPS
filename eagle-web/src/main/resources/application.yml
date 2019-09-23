@@ -1,0 +1,203 @@
+hwagain: 
+ conf:
+    allowedOrigins:
+                 - '*'
+    attachmentBaseDirectory : ./upload
+    defaultLocale: zh_CN
+    debugPageResult: false
+    recordOperateLog: true
+    supportLocales: 
+                 - zh_CN 
+                 - en_US
+    defaultPage: readme.html
+    hostPrefix : 
+    staticMappings:
+         /resource/**: 
+                - classpath:/WEB-INF/static/                
+         /flowchart/**: 
+            - classpath:/WEB-INF/flowchart/
+    #rpc不需要增加用户信息方法
+    notNeedUserMethods: 
+ apiInfo:
+       title: HWAGAIN REST API
+       description: 
+       version: 2.0.0
+       termsOfServiceUrl: 
+       contact: 
+            name: 韩金
+            url:   
+            email:   
+       license: 
+       licenseUrl: 
+       pathsRegex: ^.*(?<!error)$
+ 
+spring: 
+   rabbitmq: 
+        host: 10.0.82.62
+        port: 5672
+        username: admin
+        password: admin 
+   datasource: 
+             platform: mysql
+             url: jdbc:mysql://192.168.68.204:3306/hwagain-eagle-db?createDatabaseIfNotExist=true&useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false
+             username: sit
+             password: abc-123
+             driverClassName: com.mysql.jdbc.Driver
+             type: com.alibaba.druid.pool.DruidDataSource
+             initialSize: 5
+             minIdle: 5
+             maxActive: 20
+             # 配置获取连接等待超时的时间
+             maxWait: 60000
+             validationQuery: SELECT 1
+             testOnBorrow: false
+             testOnReturn: false
+             testWhileIdle: true
+             minEvictableIdleTimeMillis: 25200000
+             # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+             timeBetweenEvictionRunsMillis: 60000
+             removeAbandoned: true
+             removeAbandonedTimeout: 1800
+             # 打开PSCache，并且指定每个连接上PSCache的大小
+             poolPreparedStatements: true
+             maxPoolPreparedStatementPerConnectionSize: 20
+             logAbandoned: true
+             # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+             filters: stat,wall,log4j
+             useGlobalDataSourceStat: true
+   jackson:
+          date-format: yyyy-MM-dd HH:mm:ss
+          short-date-format: yyyy-MM-dd
+   swagger: 
+     enabled: true 
+     authorization: 
+     name: JWT
+     key-name: Authorization
+   thymeleaf: 
+       prefix: classpath:/html
+       suffix: .html
+       cache: false 
+   messages:
+        basename: i18n/messages 
+   cluster:  
+      redis:
+         host: 192.168.68.207
+         port: 6379
+         password: 
+         masterName: audit6379
+         maxTotal: 200
+         maxIdle: 50
+         numTestsPerEvictionRun: 1024
+         maxWaitMillis: 1500
+         type: singleton # singleton:单机 , sentinel:哨兵, cluster:集群
+         expire: 1800
+         nodes:
+             - host: 192.168.68.207
+               port: 6379
+   http: 
+      multipart: 
+        max-file-size: 10MB
+               
+
+server:
+    port: 9002
+    session: 
+        timeout: 604800000
+    context-path: /eagle
+    tomcat:
+      uri-encoding: UTF-8
+      
+logging:
+    path: ./logs
+    file: ./logs/framework.log
+mybatis: 
+   mapperLocations: classpath*:com/hwagain/eagle/**/mapper/xml/*Mapper.xml 
+   typeAliasesPackage: com.hwagain.eagle.**.entity
+shiro:
+    conf:
+        successUrl: onLoginSuccess
+       
+        unauthorizedUrl:
+        loginView: /doLogin
+        openToken: true
+        securityKey: sso_dev_id
+        tokenKey: hwagain_sso_token_test
+        isUpdatePwd: false
+        sysanon: 
+           - /mbpm/**
+           - /druid/**
+           - /resource/**
+           - /unauthorized
+           - /unLogin
+           - /onLoginSuccess
+           - /logoutSuccess
+           - /app/**
+logback:
+    filePath: .\src\main\resources\logback.xml
+sys:
+   config:
+      dubbo:
+         zookeeper-address: 192.168.68.207:2181
+         owner: dev
+         provider-version: localdev
+         application-version: dev.1.0
+         retries: 0
+         port: 60099
+         timeout: 5
+         org-provider-version: dev.1.0
+         info-center-version: dev.1.0
+         esb-provider-version: dev.1.0
+      upload:
+         basePath: D:/xlz/workspace/hwagain-eagle/uploadFile/
+      uploadLog:
+         basePath: D:/xlz/workspace/hwagain-eagle/uploadFile/txt/
+      download: 
+         basePath: http://172.16.1.67/eagle_img/
+      downloadOut: 
+         basePath: https://www.hwagain.com/eagle_img/
+      url: 
+         smsUrl: http://sms.hwagain.com:60015/info-center/sms/infoSmsSend/saveSms
+         baiduApi: http://api.map.baidu.com/routematrix/v2/driving
+         baiduGpsSwitch: http://api.map.baidu.com/geoconv/v1/
+         baiduRoadWay: http://api.map.baidu.com/direction/v2/driving?
+         baiduAiPlate: https://aip.baidubce.com/rest/2.0/ocr/v1/license_plate
+         ak: 3qRx80AWMi9iot5lusSEoAxCEbLfu1rS
+         baiduAccessToken: https://aip.baidubce.com/oauth/2.0/token?
+         client_id: AKPlSO3sfH1x4jv98wxBPBLN
+         client_secret: wxZ7UwybCHOejnEm3meu1xazi0bTnOua
+      app: 
+        version: 1.0.0
+        link: http://171.106.48.9:9001/data/release.apk
+        description: 版本描述
+        versionCode: 1
+        downloadUrl: http://t.cn/AiKawB7O
+      EXB: 
+        Env: SIT
+      RSA: 
+        publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvO29WpnLHmzsXXixdGMyNTptgCcJJwFPl5fWgfhab0DyuUg9649wGm1gsa2u7TzWBTaO8eO2IwcRVXOQHiz4eQu7PghodConRqlt8Mq3GchAipsZyRlz23JJ1b53XqttYVC6i2Yt3LkhVP3pjMlr1Y2aSz0Jcskp574HpbrZX5QIDAQAB
+        privateKey2: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBANHwtkGn/fzsJq1B/6s2Tb+cfj2z8kKsfpha2Ng6tfzxpsY7YTvK06CgpUzxevE0Eaw6xwkVPena8R3vlOFaUYoN6drbwBuXkIprkdOCiLHJB/TCF1jFrEINqBYpmn8VtpsblrfeDCoLESdPBIqxmxJFLlXYfxZ2LJBJ/tz1vSevAgMBAAECgYEAjuCdiU2FY+5r3BpAoAsTGsase93NkGbIuXOKhI5gcMcdU2fyIrlFEdqC5TyrCSEArhBKiPn16wPgeRkmX8ASIQEMKRpL2WpfyFWmotFV4GaoSZ3Rvk3E/i8CTh7Bbr7kgpt/1aomo3LVB7oGw+iLnW8+PMe9IhSpVI6QaAt9qFECQQDpL7BU8Pj78fjvxuWEqA3CvPr66MJ7QVhn72jQXyf6UROi8wmVlUa6HdFXtq8bDTZegmm34NTzoejjB57eY3ClAkEA5nrPm52ah+n+p68Z44RcLxv9RGP0IwZR3jJfz62HHJJexuz7ICiopgVa6FURMF47QTXzDLDLx4M+JijaRIvSwwJBAJ+zfXxvHNbQPcFZ4s8bmXEJpIo65xcrBbUJDivHP8X7yQsMkD/V4H6O9VSxVPOd9OJ9RpIcdTv2Y105VuDQEdECQBWDHv+SXUsUTx2NnWf8AbKv9Rq+DZp7S4bmwsSamMLU8p20ntfok50zYMHQttMB6Jv0kiP8GHkdyd477+t39YsCQDknm8khUm8ocex3NGodOVj0eeQbd4osXxyoMlOyVem0h1A8LeidfxuoHr7/fewSxyQsbLxWWDcl0R0Hw/Uq9K4=
+        publicKey2: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDR8LZBp/387CatQf+rNk2/nH49s/JCrH6YWtjYOrX88abGO2E7ytOgoKVM8XrxNBGsOscJFT3p2vEd75ThWlGKDena28Abl5CKa5HTgoixyQf0whdYxaxCDagWKZp/FbabG5a33gwqCxEnTwSKsZsSRS5V2H8WdiyQSf7c9b0nrwIDAQAB
+jwt:
+   config:
+      key: hwagain
+      ttl: 604800000
+      key2: hwagainhwagain
+
+jdbc: 
+   config:
+      OAUrl: jdbc:sqlserver://192.168.68.78:1433; DatabaseName=C6
+      OAUsername: pxoa
+      OAPassword: 123456
+      OARequestType: sit  #sit OA访问测试环境  pro OA访问生产环境     
+      HJPMUrl: jdbc:jtds:sqlserver://10.2.80.251:1433; DatabaseName=HJPM 
+      HJPMUsername: icread2
+      HJPMPassword: icread2
+      PurUrl: jdbc:sqlserver://192.168.98.241:1433; DatabaseName=原料收购
+      PurUsername: iccard
+      PurPassword: iccard
+#      YLZUrl: jdbc:sqlserver://192.168.68.110:1433; DatabaseName=yuanliaozhu
+#      YLZUsername: yuanliaozhu
+#      YLZPassword: ylz-123456
+      YLZUrl: jdbc:jtds:sqlserver://192.168.0.250:1433; DatabaseName=yuanlzhu
+      YLZUsername: PhotoUser
+      YLZPassword: pu2019

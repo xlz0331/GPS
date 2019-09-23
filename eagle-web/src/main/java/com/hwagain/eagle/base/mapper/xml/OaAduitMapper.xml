@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.base.mapper.OaAduitMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.base.entity.OaAduit">
+		<id column="fd_id" property="fdId" />
+		<result column="oa_code" property="oaCode" />
+		<result column="platform" property="platform" />
+		<result column="table_name" property="tableName" />
+		<result column="flow_name" property="flowName" />
+		<result column="node_name" property="nodeName" />
+		<result column="emp_no" property="empNo" />
+		<result column="emp_name" property="empName" />
+		<result column="flow_djbh" property="flowDjbh" />
+		<result column="flow_djlsh" property="flowDjlsh" />
+		<result column="status" property="status" />
+		<result column="creater_id" property="createrId" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+</mapper>

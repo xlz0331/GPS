@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.region.mapper.RegionSupplierMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.region.entity.RegionSupplier">
+		<id column="fd_id" property="fdId" />
+		<result column="supplier_name" property="supplierName" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="province" property="province" />
+		<result column="material" property="material" />
+		<result column="city" property="city" />
+		<result column="region_name" property="regionName" />
+		<result column="extra_subsidy" property="extraSubsidy" />
+		<result column="subsidy" property="subsidy" />
+		<result column="region_distance" property="regionDistance" />
+		<result column="min_region_distance" property="minRegionDistance" />
+		<result column="reason" property="reason" />
+		<result column="state" property="state" />
+		<result column="effdt" property="effdt" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+	</resultMap>
+	<select id="queryAllSupplier" parameterType="Object" resultMap="BaseResultMap">
+	SELECT DISTINCT supplier_name FROM region_supplier WHERE state=1
+	</select>
+
+</mapper>

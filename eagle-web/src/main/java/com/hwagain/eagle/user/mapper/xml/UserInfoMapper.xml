@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.user.mapper.UserInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.user.entity.UserInfo">
+		<id column="fd_id" property="fdId" />
+		<result column="loginname" property="loginname" />
+		<result column="hwagain_employee" property="hwagainEmployee" />
+		<result column="password" property="password" />
+		<result column="mobile" property="mobile" />
+		<result column="parent_id" property="parentId" />
+		<result column="plate_number" property="plateNumber" />
+		<result column="imei" property="imei" />
+		<result column="user_type" property="userType" />
+		<result column="head_path_id" property="headPathId" />
+		<result column="state" property="state" />
+		<result column="locked" property="locked" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+	</resultMap>
+
+	<update id="deleteByIds" parameterType="Object">
+		update user_info set state = 2 where fd_id in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<select id="queryByUserAccount" parameterType="Object" resultMap="BaseResultMap">
+		SELECT
+			fd_id,
+			loginname,
+			hwagain_employee,
+			`password`,
+			mobile,
+			parent_id,
+			plate_number,
+			imei,
+			user_type,
+			head_path_id,
+			state,
+			`locked`
+		FROM
+			user_info
+		WHERE
+			state = 1 and `locked` = 2 
+			and (
+				mobile = #{userAccount}
+			)
+	</select>
+	
+</mapper>

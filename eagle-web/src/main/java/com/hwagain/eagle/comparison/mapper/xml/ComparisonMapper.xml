@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.comparison.mapper.ComparisonMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.comparison.entity.Comparison">
+		<id column="fd_id" property="fdId" />
+		<result column="pound_id" property="poundId" />
+		<result column="task_id" property="taskId" />
+		<result column="transport_time" property="transportTime" />
+		<result column="plate_number" property="plateNumber" />
+		<result column="supplier_name" property="supplierName" />
+		<result column="material" property="material" />
+		<result column="old_audit_photo1" property="oldAuditPhoto1" />
+		<result column="old_audit_photo2" property="oldAuditPhoto2" />
+		<result column="new_audit_photo1" property="newAuditPhoto1" />
+		<result column="new_audit_photo2" property="newAuditPhoto2" />
+		<result column="new_audit_photo3" property="newAuditPhoto3" />
+		<result column="old_audit_track2" property="oldAuditTrack2" />
+		<result column="new_audit_track2" property="newAuditTrack2" />
+		<result column="new_audit_track3" property="newAuditTrack3" />
+		<result column="old_result" property="oldResult" />
+		<result column="new_result" property="newResult" />
+		<result column="reason" property="reason" />
+		<result column="state" property="state" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+	</resultMap>
+
+</mapper>

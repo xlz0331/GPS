@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.region.mapper.RegionDetailMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.region.entity.RegionDetail">
+		<id column="fd_id" property="fdId" />
+		<result column="supplier_name" property="supplierName" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="province" property="province" />
+		<result column="material" property="material" />
+		<result column="purchase_point" property="purchasePoint" />
+		<result column="region_name" property="regionName" />
+		<result column="address" property="address" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+		<result column="region_distance" property="regionDistance" />
+		<result column="subsidy1" property="subsidy1" />
+		<result column="subsidy2" property="subsidy2" />
+		<result column="mobile" property="mobile" />
+		<result column="oa_code" property="oaCode" />
+		<result column="state" property="state" />
+		<result column="audit1" property="audit1" />
+		<result column="auditor1" property="auditor1" />
+		<result column="audit_time1" property="auditTime1" />
+		<result column="audit2" property="audit2" />
+		<result column="auditor2" property="auditor2" />
+		<result column="audit_time2" property="auditTime2" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+		<result column="gps_latitude" property="gpsLatitude" />
+		<result column="gps_longitude" property="gpsLongitude" />
+	</resultMap>
+	<select id="querySupplier" parameterType="Object" resultMap="BaseResultMap">
+	SELECT DISTINCT supplier_name FROM region_detail where state =1
+	</select>
+
+</mapper>

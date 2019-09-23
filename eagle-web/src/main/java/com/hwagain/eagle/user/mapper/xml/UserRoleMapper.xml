@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.user.mapper.UserRoleMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.user.entity.UserRole">
+		<id column="fd_id" property="fdId" />
+		<result column="user_id" property="userId" />
+		<result column="role_id" property="roleId" />
+		<result column="state" property="state" />
+		<result column="creator_id" property="creatorId" />
+		<result column="create_time" property="createTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+	</resultMap>
+
+	<update id="deleteByIds" parameterType="Object">
+		update user_role set state = 2 where fd_id in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<select id="queryParam" parameterType="com.hwagain.eagle.user.dto.UserRoleDto" resultMap="BaseResultMap">
+		SELECT
+			fd_id,
+			user_id,
+			role_id,
+			state,
+			creator_id,
+			create_time,
+			last_altor_id,
+			last_alter_time
+		FROM
+			user_role
+		WHERE
+			1 = 1
+		<if test="state != null">
+			AND state = #{state}
+		</if>
+		<if test="userId != null">
+			AND user_id = #{userId}
+		</if>
+		<if test="roleId != null">
+			AND role_id = #{roleId}
+		</if>
+	</select>
+</mapper>

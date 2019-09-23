@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.correct.mapper.CorrectMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.correct.entity.Correct">
+		<id column="fd_id" property="fdId" />
+		<result column="task_id" property="taskId" />
+		<result column="region_name2" property="regionName2" />
+		<result column="price" property="price" />
+		<result column="total_price" property="totalPrice" />
+		<result column="apply_reason" property="applyReason" />
+		<result column="oa_code" property="oaCode" />
+		<result column="audit1" property="audit1" />
+		<result column="audit_reason1" property="auditReason1" />
+		<result column="auditor1" property="auditor1" />
+		<result column="audit_time1" property="auditTime1" />
+		<result column="audit2" property="audit2" />
+		<result column="audit_reason2" property="auditReason2" />
+		<result column="auditor2" property="auditor2" />
+		<result column="audit_time2" property="auditTime2" />
+		<result column="audit3" property="audit3" />
+		<result column="audit_reason3" property="auditReason3" />
+		<result column="auditor3" property="auditor3" />
+		<result column="audit_time3" property="auditTime3" />
+		<result column="state" property="state" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.base.mapper.LogOperatorMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.base.entity.LogOperator">
+		<id column="fd_id" property="fdId" />
+		<result column="code" property="code" />
+		<result column="operate_type" property="operateType" />
+		<result column="operator_id" property="operatorId" />
+		<result column="create_time" property="createTime" />
+		<result column="state" property="state" />
+		<result column="content" property="content" />
+		<result column="compress" property="compress" />
+	</resultMap>
+
+</mapper>

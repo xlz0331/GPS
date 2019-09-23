@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.track.mapper.TrackInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.track.entity.TrackInfo">
+		<id column="fd_id" property="fdId" />
+		<result column="task_id" property="taskId" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+		<result column="distance" property="distance" />
+		<result column="direction" property="direction" />
+		<result column="height" property="height" />
+		<result column="speed" property="speed" />
+		<result column="floor" property="floor" />
+		<result column="radius" property="radius" />
+		<result column="loc_time" property="locTime" />
+		<result column="save_time" property="saveTime" />
+		<result column="coord_type_input" property="coordTypeInput" />
+		<result column="remote_ip" property="remoteIp" />
+		<result column="audit1" property="audit1" />
+		<result column="auditor1" property="auditor1" />
+		<result column="audit_time1" property="auditTime1" />
+		<result column="audit2" property="audit2" />
+		<result column="auditor2" property="auditor2" />
+		<result column="audit_time2" property="auditTime2" />
+		<result column="audit3" property="audit3" />
+		<result column="auditor3" property="auditor3" />
+		<result column="audit_time3" property="auditTime3" />
+		<result column="audit_reason1" property="auditReason1" />
+		<result column="audit_reason2" property="auditReason2" />
+		<result column="audit_reason3" property="auditReason3" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+	<select id="findTrackByTaskId" parameterType="Object" resultType="com.hwagain.eagle.track.entity.TrackInfoVo">
+	SELECT UNIX_TIMESTAMP(loc_time)  loc_time,latitude,longitude,radius,speed,direction,coord_type_input
+ FROM `track_info` WHERE task_id=#{taskId}
+	</select>
+	
+	<select id="findAllTrackAnalyze" parameterType="Object" resultType="com.hwagain.eagle.track.entity.TrackAnalyze">
+	<![CDATA[
+SELECT
+	a.fd_id fdId,
+	a.driver_name userName,
+	a.supplier_name supplierName,
+	a.STATUS,
+	a.start_position_address startAddress,
+	a.start_position_city startCity,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.user_id userId,
+	a.is_full isFull,
+	a.track_num trackNum,
+	a.track_time timeNum,
+	a.total_break_time totalBreakTime,
+	b.fd_id id,
+	b.imei,
+	b.business_name businessName,
+	b.product_name productName,
+	b.phone_model phoneModel,
+	b.mobile_brand mobileBrand,
+	b.mainboard_name mainboardName,
+	b.device_name deviceName,
+	b.system_versions systemVersions 
+FROM
+	task a
+	LEFT JOIN log_phone_info b ON a.remark = b.imei 
+WHERE
+	remark != "" 
+	and a.status=1
+	and a.state=1
+	AND a.create_time > #{startTime} 
+	AND a.create_time <  #{endTime}  
+	AND b.fd_id = ( SELECT max( fd_id ) FROM log_phone_info WHERE log_phone_info.imei = a.remark AND log_phone_info.login_time < a.create_time ) 
+GROUP BY
+	a.fd_id 
+ORDER BY
+	a.create_time DESC
+	 ]]>
+	</select>
+	
+	<select id="findAllTrackAnalyze2" parameterType="Object" resultType="com.hwagain.eagle.track.entity.TrackAnalyze">
+	<![CDATA[
+SELECT
+	a.fd_id fdId,
+	a.driver_name userName,
+	a.supplier_name supplierName,
+	a.STATUS,
+	a.start_position_address startAddress,
+	a.start_position_city startCity,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.user_id userId,
+	a.is_full isFull,
+	a.track_num trackNum,
+	a.track_time timeNum,
+	a.total_break_time totalBreakTime,
+	b.fd_id id,
+	b.imei,
+	b.business_name businessName,
+	b.product_name productName,
+	b.phone_model phoneModel,
+	b.mobile_brand mobileBrand,
+	b.mainboard_name mainboardName,
+	b.device_name deviceName,
+	b.system_versions systemVersions 
+FROM
+	task a
+	LEFT JOIN log_phone_info b ON a.remark = b.imei 
+WHERE
+	remark != "" 
+	and a.status>1
+	and a.state=1
+	AND a.create_time > #{startTime} 
+	AND a.create_time <  #{endTime}  
+	AND b.fd_id = ( SELECT max( fd_id ) FROM log_phone_info WHERE log_phone_info.imei = a.remark AND log_phone_info.login_time < a.create_time ) 
+GROUP BY
+	a.fd_id 
+ORDER BY
+	a.create_time DESC
+	 ]]>
+	</select>
+	
+	<select id="findAllTaskTrackAnalyze" parameterType="Object" resultType="com.hwagain.eagle.track.entity.TrackAnalyze">
+	<![CDATA[
+SELECT
+	a.fd_id fdId,
+	a.status,
+	a.start_position_address startAddress,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.is_full isFull,
+	a.track_num trackNum,
+	a.track_time timeNum,
+	a.total_break_time totalBreakTime,
+a.driver_name userName,
+a.supplier_name supplierName
+FROM
+	task a
+	
+WHERE 
+ a.create_time > #{startTime}
+	AND ( a.create_time <  #{endTime})
+	and a.status>1
+	and a.state=1
+GROUP BY
+	a.fd_id
+ORDER BY
+	a.create_time desc
+	 ]]>
+	</select>
+	<select id="findAllTaskTrackAnalyze2" parameterType="Object" resultType="com.hwagain.eagle.track.entity.TrackAnalyze">
+	<![CDATA[
+SELECT
+	a.fd_id fdId,
+	a.STATUS,
+	a.start_position_address startAddress,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.driver_name userName,
+	a.is_full isFull,
+	a.track_num trackNum,
+	a.track_time timeNum,
+	a.total_break_time totalBreakTime,
+	a.supplier_name supplierName 
+FROM
+	task a 
+WHERE
+	a.create_time > #{startTime} 
+	AND ( a.create_time <  #{endTime})
+	AND a.supplier_name = #{supplierName}
+	and a.status>1
+	and a.state=1
+GROUP BY
+	a.fd_id 
+ORDER BY
+	a.create_time DESC
+	 ]]>
+	</select>
+</mapper>

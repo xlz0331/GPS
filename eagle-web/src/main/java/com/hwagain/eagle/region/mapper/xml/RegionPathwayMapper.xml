@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.region.mapper.RegionPathwayMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.region.entity.RegionPathway">
+		<id column="fd_id" property="fdId" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="county" property="county" />
+		<result column="address" property="address" />
+		<result column="haulway" property="haulway" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+		<result column="state" property="state" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+	</resultMap>
+	<select id="queryPrivince" parameterType="Object" resultMap="BaseResultMap">
+	SELECT DISTINCT province FROM `region`
+	</select>
+	
+	<select id="queryCity" parameterType="Object" resultMap="BaseResultMap">
+	SELECT DISTINCT city FROM `region` where province =#{privince} and state =1  and city is not null
+	</select>
+	
+	<select id="queryCounty" parameterType="Object" resultMap="BaseResultMap">
+	SELECT DISTINCT region_name county FROM `region` where city =#{city}  and state =1 and region_name is not null
+	</select>
+	
+	<select id="queryHaulway" parameterType="Object" resultMap="BaseResultMap">
+	SELECT DISTINCT haulway FROM `region_pathway` where province=#{privince} and city=#{city} and county =#{county} and state=1 and  haulway is not null
+	</select>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.supplier.mapper.MaterialPurchasePlanMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.supplier.entity.MaterialPurchasePlan">
+		<id column="fd_id" property="fdId" />
+		<result column="supplier_name" property="supplierName" />
+		<result column="company_id" property="companyId" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="material" property="material" />
+		<result column="purchase_plan_num" property="purchasePlanNum" />
+		<result column="max_purchase_day_num" property="maxPurchaseDayNum" />
+		<result column="min_purchase_day_num" property="minPurchaseDayNum" />
+		<result column="average_percar_num" property="averagePercarNum" />
+		<result column="max_car_num" property="maxCarNum" />
+		<result column="min_car_num" property="minCarNum" />
+		<result column="completed_num" property="completedNum" />
+		<result column="plan_starttime" property="planStarttime" />
+		<result column="plan_endtime" property="planEndtime" />
+		<result column="state" property="state" />
+		<result column="oa_code" property="oaCode" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+	</resultMap>
+	<select id="getNowPlan" parameterType="Object" resultType="com.hwagain.eagle.supplier.dto.MaterialPurchasePlanRptDto">
+		SELECT fd_id fdId,plan_starttime planStarttime FROM `material_purchase_plan` where state=3 
+	</select>
+	
+	<select id="getNowPlan2" parameterType="Object" resultType="com.hwagain.eagle.supplier.entity.MaterialPurchasePlan">
+		SELECT fd_id fdId,supplier_name supplierName,company_id companyId,supplier_id supplierId,material,purchase_plan_num purchasePlanNum,
+max_purchase_day_num maxPurchaseDayNum,min_purchase_day_num minPurchaseDayNum,plan_starttime planStarttime,plan_endtime planEndtime,
+state FROM `material_purchase_plan` where state=3 and date_format(plan_starttime,'%Y年%m月')=#{date}  ORDER BY IFNULL(material,supplier_name)
+	</select>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.region.mapper.TaskRouteMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.region.entity.TaskRoute">
+		<id column="fd_id" property="fdId" />
+		<result column="region_id" property="regionId" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="county" property="county" />
+		<result column="purchase_point" property="purchasePoint" />
+		<result column="address" property="address" />
+		<result column="road_name" property="roadName" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+		<result column="total_distance" property="totalDistance" />
+		<result column="distance" property="distance" />
+		<result column="origin" property="origin" />
+		<result column="tactics" property="tactics" />
+		<result column="state" property="state" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.task.mapper.TaskMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.task.entity.Task">
+		<id column="fd_id" property="fdId" />
+		<result column="order_id" property="orderId" />
+		<result column="pound_id" property="poundId" />
+		<result column="user_id" property="userId" />
+		<result column="driver_name" property="driverName" />
+		<result column="user_mobile" property="userMobile" />
+		<result column="user_plate_number" property="userPlateNumber" />
+		<result column="car_type" property="carType" />
+		<result column="material" property="material" />
+		<result column="weight_tons" property="weightTons" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="supplier_name" property="supplierName" />
+		<result column="current_region_id" property="currentRegionId" />
+		<result column="destination_id" property="destinationId" />
+		<result column="region_distance" property="regionDistance" />
+		<result column="photo_counts" property="photoCounts" />
+		<result column="photo_acceptance_result" property="photoAcceptanceResult" />
+		<result column="travelling_distance" property="travellingDistance" />
+		<result column="start_position_address" property="startPositionAddress" />
+		<result column="start_position_city" property="startPositionCity" />
+		<result column="reach_location_address" property="reachLocationAddress" />
+		<result column="reach_location_city" property="reachLocationCity" />
+		<result column="path_acceptance_result" property="pathAcceptanceResult" />
+		<result column="path_reason" property="pathReason" />
+		<result column="state" property="state" />
+		<result column="status" property="status" />
+		<result column="corrections" property="corrections"/>
+		<result column="remark" property="remark" />
+		<result column="task_route" property="taskRoute" />
+		<result column="track_num" property="trackNum" />
+		<result column="track_time" property="trackTime" />
+		<result column="is_full" property="isFull" />
+		<result column="total_break_time" property="totalBreakTime" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+	</resultMap>
+	<select id="findOrder" parameterType="Object" resultMap="BaseResultMap">
+		select distinct supplier_id,order_id,create_time from task WHERE supplier_id=#{supplierId}
+	</select>
+	<select id="queryTaskFirst" parameterType="Object" resultMap="BaseResultMap">
+	<![CDATA[
+	select  *  FROM task WHERE user_plate_number=#{plateNumber} and status<3 ORDER BY create_time DESC LIMIT 1  
+	]]>
+	</select>
+	<select id="findTaskHistoryBySupplier" parameterType="Object" resultMap="BaseResultMap">
+	SELECT * FROM task WHERE create_time > #{startTime} and !last_alter_time > #{endTime} and (driver_name LIKE #{driverName} or user_mobile LIKE #{driverName} or user_plate_number LIKE #{driverName}) and 
+	material=#{material} and start_position_city =#{startCity} and reach_location_city=#{endCity} and state =1 and status>1 and supplier_id=#{fdId}
+	</select>
+	<select id="findTaskResult" parameterType="Object" resultType="com.hwagain.eagle.task.entity.TaskVo_a">
+	SELECT 	
+	a.fd_id fdId,
+	a.pound_id poundId,
+	a.supplier_id supplierId,
+	a.supplier_name supplierName,
+	a.user_plate_number userPlateNumber,
+	a.start_position_city startPositionCity,
+	a.status,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.corrections,
+	a.start_position_address startPositionAddress,
+	c.audit2 AS trackAudit2,
+	c.auditor2 AS trackAuditor2,
+	c.audit_time2 AS trackAuditTime2,
+	c.audit_reason2 AS trackAuditReason2,
+	c.audit3 trackAudit3,
+	c.auditor3 trackAuditor3,
+	c.audit_time3 trackAuditTime3,
+	c.audit_reason3 AS trackAuditReason3,
+		(
+CASE
+	WHEN ( `d`.`photo_type` = 1 ) THEN
+	'车牌' 
+	WHEN ( `d`.`photo_type` = 2 ) THEN
+	'车头' 
+	WHEN ( `d`.`photo_type` = 3 ) THEN
+	'车身' 
+	WHEN ( `d`.`photo_type` = 4 ) THEN
+	'车尾' 
+END 
+	) AS `photoType`,
+	d.audit1,
+	d.auditor1,
+	d.audit_time1 auditTime1,
+	d.audit_reason1 auditReason1,
+	d.audit2,
+	d.auditor2,
+	d.audit_time2 auditTime2,
+	d.audit_reason2 auditReason2,
+	d.audit3,
+	d.auditor3,
+	d.audit_time3 auditTime3,
+	d.audit_reason3 auditReason3 
+	FROM `task` a LEFT JOIN (select * from track_info b GROUP BY b.task_id) as c on a.fd_id=c.task_id 
+	LEFT JOIN task_photo d on c.task_id=d.task_id WHERE a.state=1 and a.status=#{status} and d.photo_type!=5 
+	and d.state=1 ORDER BY a.last_alter_time desc
+	</select>
+	<select id="findTaskResult2" parameterType="Object" resultType="com.hwagain.eagle.task.entity.TaskVo_a">
+	<![CDATA[
+	SELECT
+	a.fd_id fdId,
+	a.pound_id poundId,
+	a.supplier_id supplierId,
+	a.supplier_name supplierName,
+	a.user_plate_number userPlateNumber,
+	a.start_position_city startPositionCity,
+	a.status,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.corrections,
+	a.start_position_address startPositionAddress,
+	c.audit2 AS trackAudit2,
+	c.auditor2 AS trackAuditor2,
+	c.audit_time2 AS trackAuditTime2,
+	c.audit_reason2 AS trackAuditReason2,
+	c.audit3 trackAudit3,
+	c.auditor3 trackAuditor3,
+	c.audit_time3 trackAuditTime3,
+	c.audit_reason3 AS trackAuditReason3,
+		(
+CASE
+	WHEN ( `d`.`photo_type` = 1 ) THEN
+	'车牌' 
+	WHEN ( `d`.`photo_type` = 2 ) THEN
+	'车头' 
+	WHEN ( `d`.`photo_type` = 3 ) THEN
+	'车身' 
+	WHEN ( `d`.`photo_type` = 4 ) THEN
+	'车尾' 
+END 
+	) AS `photoType`,
+	d.audit1,
+	d.auditor1,
+	d.audit_time1 auditTime1,
+	d.audit_reason1 auditReason1,
+	d.audit2,
+	d.auditor2,
+	d.audit_time2 auditTime2,
+	d.audit_reason2 auditReason2,
+	d.audit3,
+	d.auditor3,
+	d.audit_time3 auditTime3,
+	d.audit_reason3 auditReason3 
+	FROM `task` a LEFT JOIN (select * from track_info b GROUP BY b.task_id) as c on a.fd_id=c.task_id 
+	LEFT JOIN task_photo d on c.task_id=d.task_id WHERE a.state=1 and a.status=#{status} and d.photo_type!=5 
+	and d.state=1 and a.create_time>#{startTime} and a.create_time<#{endTime} ORDER BY a.last_alter_time desc
+	]]>
+	</select>
+	<select id="findTaskResult3" parameterType="Object" resultType="com.hwagain.eagle.task.entity.TaskVo_a">
+	<![CDATA[
+	SELECT
+	a.fd_id fdId,
+	a.pound_id poundId,
+	a.supplier_id supplierId,
+	a.supplier_name supplierName,
+	a.user_plate_number userPlateNumber,
+	a.start_position_city startPositionCity,
+	a.status,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.corrections,
+	a.start_position_address startPositionAddress,
+	c.audit2 AS trackAudit2,
+	c.auditor2 AS trackAuditor2,
+	c.audit_time2 AS trackAuditTime2,
+	c.audit_reason2 AS trackAuditReason2,
+	c.audit3 trackAudit3,
+	c.auditor3 trackAuditor3,
+	c.audit_time3 trackAuditTime3,
+	c.audit_reason3 AS trackAuditReason3,
+		(
+CASE
+	WHEN ( `d`.`photo_type` = 1 ) THEN
+	'车牌' 
+	WHEN ( `d`.`photo_type` = 2 ) THEN
+	'车头' 
+	WHEN ( `d`.`photo_type` = 3 ) THEN
+	'车身' 
+	WHEN ( `d`.`photo_type` = 4 ) THEN
+	'车尾' 
+END 
+	) AS `photoType`,
+	d.audit1,
+	d.auditor1,
+	d.audit_time1 auditTime1,
+	d.audit_reason1 auditReason1,
+	d.audit2,
+	d.auditor2,
+	d.audit_time2 auditTime2,
+	d.audit_reason2 auditReason2,
+	d.audit3,
+	d.auditor3,
+	d.audit_time3 auditTime3,
+	d.audit_reason3 auditReason3 
+	FROM `task` a LEFT JOIN (select * from track_info b GROUP BY b.task_id) as c on a.fd_id=c.task_id 
+	LEFT JOIN task_photo d on c.task_id=d.task_id WHERE a.state=1 and a.status=#{status} and d.photo_type!=5 
+	and d.state=1 and a.supplier_name=#{supplierName} ORDER BY a.last_alter_time desc
+	]]>
+	</select>
+	<select id="findTaskResult4" parameterType="Object" resultType="com.hwagain.eagle.task.entity.TaskVo_a">
+	<![CDATA[
+	SELECT
+	a.fd_id fdId,
+	a.pound_id poundId,
+	a.supplier_id supplierId,
+	a.supplier_name supplierName,
+	a.user_plate_number userPlateNumber,
+	a.start_position_city startPositionCity,
+	a.status,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.corrections,
+	a.start_position_address startPositionAddress,
+	c.audit2 AS trackAudit2,
+	c.auditor2 AS trackAuditor2,
+	c.audit_time2 AS trackAuditTime2,
+	c.audit_reason2 AS trackAuditReason2,
+	c.audit3 trackAudit3,
+	c.auditor3 trackAuditor3,
+	c.audit_time3 trackAuditTime3,
+	c.audit_reason3 AS trackAuditReason3,
+		(
+CASE
+	WHEN ( `d`.`photo_type` = 1 ) THEN
+	'车牌' 
+	WHEN ( `d`.`photo_type` = 2 ) THEN
+	'车头' 
+	WHEN ( `d`.`photo_type` = 3 ) THEN
+	'车身' 
+	WHEN ( `d`.`photo_type` = 4 ) THEN
+	'车尾' 
+END 
+	) AS `photoType`,
+	d.audit1,
+	d.auditor1,
+	d.audit_time1 auditTime1,
+	d.audit_reason1 auditReason1,
+	d.audit2,
+	d.auditor2,
+	d.audit_time2 auditTime2,
+	d.audit_reason2 auditReason2,
+	d.audit3,
+	d.auditor3,
+	d.audit_time3 auditTime3,
+	d.audit_reason3 auditReason3
+	FROM `task` a LEFT JOIN (select * from track_info b GROUP BY b.task_id) as c on a.fd_id=c.task_id 
+	LEFT JOIN task_photo d on c.task_id=d.task_id WHERE a.state=1 and a.status=#{status} and d.photo_type!=5 
+	and d.state=1 and a.create_time>#{startTime} and a.create_time<#{endTime} and a.supplier_name=#{supplierName} ORDER BY a.last_alter_time desc	
+	]]>
+	</select>
+	
+	
+	<select id="findTaskResultA" parameterType="Object" resultType="com.hwagain.eagle.task.entity.TaskVo_b">
+	SELECT 	
+	a.fd_id fdId,
+	a.pound_id poundId,
+	a.supplier_id supplierId,
+	a.supplier_name supplierName,
+	a.user_plate_number userPlateNumber,
+	a.start_position_city startPositionCity,
+	a.status,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.corrections,
+	a.start_position_address startPositionAddress,
+	c.audit2 AS trackAudit2,
+	c.auditor2 AS trackAuditor2,
+	c.audit_time2 AS trackAuditTime2,
+	c.audit_reason2 AS trackAuditReason2,
+	c.audit3 trackAudit3,
+	c.auditor3 trackAuditor3,
+	c.audit_time3 trackAuditTime3,
+	c.audit_reason3 AS trackAuditReason3
+	FROM `task` a LEFT JOIN (select * from track_info b GROUP BY b.task_id) as c on a.fd_id=c.task_id 
+	WHERE a.state=1 and a.status=#{status} ORDER BY a.last_alter_time desc
+	</select>
+	<select id="findTaskResultB" parameterType="Object" resultType="com.hwagain.eagle.task.entity.TaskVo_b">
+	<![CDATA[
+	SELECT
+	a.fd_id fdId,
+	a.pound_id poundId,
+	a.supplier_id supplierId,
+	a.supplier_name supplierName,
+	a.user_plate_number userPlateNumber,
+	a.start_position_city startPositionCity,
+	a.status,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.corrections,
+	a.start_position_address startPositionAddress,
+	c.audit2 AS trackAudit2,
+	c.auditor2 AS trackAuditor2,
+	c.audit_time2 AS trackAuditTime2,
+	c.audit_reason2 AS trackAuditReason2,
+	c.audit3 trackAudit3,
+	c.auditor3 trackAuditor3,
+	c.audit_time3 trackAuditTime3,
+	c.audit_reason3 AS trackAuditReason3
+	FROM `task` a LEFT JOIN (select * from track_info b GROUP BY b.task_id) as c on a.fd_id=c.task_id 
+	WHERE a.state=1 and a.status=#{status}
+	and a.create_time>#{startTime} and a.create_time<#{endTime} ORDER BY a.last_alter_time desc
+	]]>
+	</select>
+	<select id="findTaskResultC" parameterType="Object" resultType="com.hwagain.eagle.task.entity.TaskVo_b">
+	<![CDATA[
+	SELECT
+	a.fd_id fdId,
+	a.pound_id poundId,
+	a.supplier_id supplierId,
+	a.supplier_name supplierName,
+	a.user_plate_number userPlateNumber,
+	a.start_position_city startPositionCity,
+	a.status,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.corrections,
+	a.start_position_address startPositionAddress,
+	c.audit2 AS trackAudit2,
+	c.auditor2 AS trackAuditor2,
+	c.audit_time2 AS trackAuditTime2,
+	c.audit_reason2 AS trackAuditReason2,
+	c.audit3 trackAudit3,
+	c.auditor3 trackAuditor3,
+	c.audit_time3 trackAuditTime3,
+	c.audit_reason3 AS trackAuditReason3
+	FROM `task` a LEFT JOIN (select * from track_info b GROUP BY b.task_id) as c on a.fd_id=c.task_id 
+	WHERE a.state=1 and a.status=#{status}
+	and a.supplier_name=#{supplierName}	ORDER BY a.last_alter_time desc
+	]]>
+	</select>
+	<select id="findTaskResultD" parameterType="Object" resultType="com.hwagain.eagle.task.entity.TaskVo_b">
+	<![CDATA[
+	SELECT
+	a.fd_id fdId,
+	a.pound_id poundId,
+	a.supplier_id supplierId,
+	a.supplier_name supplierName,
+	a.user_plate_number userPlateNumber,
+	a.start_position_city startPositionCity,
+	a.status,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.corrections,
+	a.start_position_address startPositionAddress,
+	c.audit2 AS trackAudit2,
+	c.auditor2 AS trackAuditor2,
+	c.audit_time2 AS trackAuditTime2,
+	c.audit_reason2 AS trackAuditReason2,
+	c.audit3 trackAudit3,
+	c.auditor3 trackAuditor3,
+	c.audit_time3 trackAuditTime3,
+	c.audit_reason3 AS trackAuditReason3
+	FROM `task` a LEFT JOIN (select * from track_info b GROUP BY b.task_id) as c on a.fd_id=c.task_id 
+	WHERE a.state=1 and a.status=#{status}
+	and a.create_time>#{startTime} and a.create_time<#{endTime} and a.supplier_name=#{supplierName}	ORDER BY a.last_alter_time desc
+	]]>
+	</select>
+	<select id="findNoTrack" parameterType="Object" resultMap="BaseResultMap">
+	<![CDATA[
+	SELECT * FROM task WHERE create_time>=#{startTime} and create_time<=#{endTime} and supplier_name=#{supplierName} and state=1 and status>1 and track_num<#{trackNum} ORDER BY create_time desc
+	]]>
+	</select>
+	<select id="findNoTrack2" parameterType="Object" resultMap="BaseResultMap">
+	<![CDATA[
+	SELECT * FROM task WHERE create_time>=#{startTime} and create_time<=#{endTime} and state=1 and status>1 and track_num<#{trackNum} ORDER BY create_time desc
+	]]>
+	</select>
+	<select id="findNoTrack3" parameterType="Object" resultMap="BaseResultMap">
+	<![CDATA[
+	SELECT * FROM task WHERE supplier_name=#{supplierName} and state=1 and status>1 and track_num<#{trackNum} ORDER BY create_time desc
+	]]>
+	</select>
+	<select id="findNoTrack4" parameterType="Object" resultMap="BaseResultMap">
+	<![CDATA[
+	SELECT * FROM task WHERE state=1 and status>1 and track_num<#{trackNum} ORDER BY create_time desc
+		]]>
+	</select>
+	
+	<select id="findAllTaskAnalyze" parameterType="Object" resultType="com.hwagain.eagle.task.entity.TaskAnalyze">
+	<![CDATA[
+SELECT DISTINCT
+	a.fd_id fdId,
+	a.supplier_name supplierName,
+	a.user_plate_number userPlateNumber,
+	a.start_position_address startPositionAddress,
+	a.create_time createTime,
+	a.last_alter_time lastAlterTime,
+	a.is_full BugPoint,
+	a.total_break_time TotalTime,
+IF
+	( a.photo_acceptance_result = 1, "合格", "不合格" ) AS photoAcceptanceResultText,
+	(
+CASE
+	
+	WHEN ( `b`.`photo_type` = 1 ) THEN
+	'车牌' 
+	WHEN ( `b`.`photo_type` = 2 ) THEN
+	'车头' 
+	WHEN ( `b`.`photo_type` = 3 ) THEN
+	'车身' 
+	WHEN ( `b`.`photo_type` = 4 ) THEN
+	'车尾' 
+END 
+	) AS `photoType`,
+IF
+	( b.audit1 = 1, "合格", "不合格" ) AS photoAudit1,
+	b.audit_reason1 photoAuditReason1,
+	b.auditor1,
+IF
+	( b.audit2 = 1, "合格", "不合格" ) AS photoAudit2,
+	b.audit_reason2 photoAuditReason2,
+	b.auditor2,
+IF
+	( b.audit3 = 1, "合格", "不合格" ) AS photoAudit3,
+	b.audit_reason3 photoAuditReason3,
+	b.auditor3,
+IF
+	( a.path_acceptance_result = 1, "合格", "不合格" ) AS pathAcceptanceResultText,
+IF
+	( d.audit2 = 1, "合格", "不合格" ) AS trackAudit2,
+	d.audit_reason2 trackAuditReason2,
+	d.auditor2,
+IF
+	( d.audit3 = 1, "合格", "不合格" ) AS trackAudit3,
+	d.audit_reason3 trackAuditReason3,
+	d.auditor3,
+IF
+	( a.STATUS = 13, "不合格", "合格" ) AS statusText 
+FROM
+	`task` a
+	LEFT JOIN task_photo b ON a.fd_id = b.task_id
+	LEFT JOIN (
+	SELECT
+		c.task_id,
+		c.auditor2,
+		c.audit_reason2,
+		c.auditor3,
+		c.audit_reason3,
+		c.audit2,
+		c.audit3 
+	FROM
+		`task` e
+		LEFT JOIN track_info c ON e.fd_id = c.task_id 
+	WHERE
+		e.STATUS = 13 
+	GROUP BY
+		c.task_id 
+	) d ON a.fd_id = d.task_id 
+WHERE
+	(( b.audit1 = 2 OR b.audit2 = 2 OR b.audit3 = 2 OR b.audit3 = 1 OR b.audit2 = 1 OR b.audit3 = 1) 
+	OR (d.audit2 = 2 OR d.audit3 = 2 ))
+	AND a.STATUS = 13 
+	and a.state=1
+	AND b.photo_type < 5 
+	AND b.state = 1 
+	and a.create_time> #{startTime}
+	and a.create_time< #{endTime}
+ORDER BY
+a.create_time
+	 ]]>
+	</select>
+</mapper>

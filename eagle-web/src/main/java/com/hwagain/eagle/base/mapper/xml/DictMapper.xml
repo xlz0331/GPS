@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.base.mapper.DictMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.base.entity.Dict">
+		<id column="fd_id" property="fdId" />
+		<result column="type_name" property="typeName" />
+		<result column="item_no" property="itemNo" />
+		<result column="item_name" property="itemName" />
+		<result column="group_name" property="groupName" />
+		<result column="code" property="code" />
+		<result column="orderby" property="orderby" />
+		<result column="remark" property="remark" />
+		<result column="text" property="text" />
+		<result column="creater_id" property="createrId" />
+		<result column="create_time" property="createTime" />
+		<result column="last_alter_id" property="lastAlterId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="is_delete" property="isDelete" />
+	</resultMap>
+
+</mapper>

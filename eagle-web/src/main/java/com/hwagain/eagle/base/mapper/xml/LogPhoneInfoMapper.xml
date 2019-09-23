@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.base.mapper.LogPhoneInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.base.entity.LogPhoneInfo">
+		<id column="fd_id" property="fdId" />
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="login_time" property="loginTime" />
+		<result column="logout_time" property="logoutTime" />
+		<result column="terminal_info" property="terminalInfo" />
+		<result column="imei" property="imei" />
+		<result column="business_name" property="businessName" />
+		<result column="product_name" property="productName" />
+		<result column="mobile_brand" property="mobileBrand" />
+		<result column="phone_model" property="phoneModel" />
+		<result column="mainboard_name" property="mainboardName" />
+		<result column="system_versions" property="systemVersions" />
+		<result column="device_name" property="deviceName" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+</mapper>

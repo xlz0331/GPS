@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.base.mapper.LogLoginMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.base.entity.LogLogin">
+		<id column="fd_id" property="fdId" />
+		<result column="user_id" property="userId" />
+		<result column="session_id" property="sessionId" />
+		<result column="login_time" property="loginTime" />
+		<result column="logout_time" property="logoutTime" />
+		<result column="terminal_type" property="terminalType" />
+		<result column="terminal_info" property="terminalInfo" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+</mapper>

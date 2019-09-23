@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.org.mapper.OrgRelationshipMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.org.entity.OrgRelationship">
+		<id column="fd_id" property="fdId" />
+		<result column="UserID" property="UserID" />
+		<result column="RelaType" property="RelaType" />
+		<result column="UserName" property="UserName" />
+		<result column="DeptID" property="DeptID" />
+		<result column="DeptID_PS" property="DeptIDPS" />
+		<result column="PosiID" property="PosiID" />
+		<result column="PosiName" property="PosiName" />
+		<result column="StatID" property="StatID" />
+		<result column="StatName" property="StatName" />
+		<result column="DeptLeader" property="DeptLeader" />
+		<result column="UserOrder" property="UserOrder" />
+		<result column="RelaPrimary" property="RelaPrimary" />
+		<result column="EMPL_RCD" property="emplRcd" />
+		<result column="EFFDT" property="effdt" />
+		<result column="JOB_INDICATOR" property="jobIndicator" />
+		<result column="POSITION_NBR" property="positionNbr" />
+		<result column="SUPV_LVL_ID" property="supvLvlId" />
+		<result column="SUPV_LVL_DESCR" property="supvLvlDescr" />
+		<result column="HR_STATUS" property="hrStatus" />
+		<result column="DeptID_L1" property="DeptIDL1" />
+		<result column="DeptID_L2" property="DeptIDL2" />
+		<result column="DeptID_L3" property="DeptIDL3" />
+		<result column="DeptID_L4" property="DeptIDL4" />
+		<result column="DeptID_L5" property="DeptIDL5" />
+		<result column="DeptID_L6" property="DeptIDL6" />
+		<result column="CompanyName" property="CompanyName" />
+		<result column="DEPTNAME" property="deptname" />
+		<result column="doc_create_id" property="docCreateId" />
+		<result column="doc_create_time" property="docCreateTime" />
+		<result column="doc_last_update_id" property="docLastUpdateId" />
+		<result column="doc_last_update_time" property="docLastUpdateTime" />
+	</resultMap>
+
+</mapper>

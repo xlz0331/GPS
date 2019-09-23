@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hwagain.eagle.task.mapper.TaskPhotoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.hwagain.eagle.task.entity.TaskPhoto">
+		<id column="fd_id" property="fdId" />
+		<result column="task_id" property="taskId" />
+		<result column="mobile" property="mobile" />
+		<result column="photo_id" property="photoId" />
+		<result column="acceptance_result" property="acceptanceResult" />
+		<result column="photo_type" property="photoType" />
+		<result column="gps" property="gps" />
+		<result column="city" property="city" />
+		<result column="address" property="address" />
+		<result column="state" property="state" />
+		<result column="photo_time" property="photoTime" />
+		<result column="audit1" property="audit1" />
+		<result column="auditor1" property="auditor1" />
+		<result column="audit_time1" property="auditTime1" />
+		<result column="audit2" property="audit2" />
+		<result column="auditor2" property="auditor2" />
+		<result column="audit_time2" property="auditTime2" />
+		<result column="audit3" property="audit3" />
+		<result column="auditor3" property="auditor3" />
+		<result column="audit_time3" property="auditTime3" />
+		<result column="audit_reason1" property="auditReason1" />
+		<result column="audit_reason2" property="auditReason2" />
+		<result column="audit_reason3" property="auditReason3" />
+		<result column="create_time" property="createTime" />
+		<result column="creator_id" property="creatorId" />
+		<result column="last_alter_time" property="lastAlterTime" />
+		<result column="last_altor_id" property="lastAltorId" />
+	</resultMap>
+	<select id="getPhotoDetail" parameterType="Object" resultType="com.hwagain.eagle.task.dto.RptTask">
+	SELECT a.fd_id taskId,b.fd_id photoId,b.photo_type photoType,a.driver_name dirverName,b.mobile,a.user_plate_number plateNumber,a.car_type carType,a.material,
+c.name region,a.travelling_distance distance,a.photo_counts photoNumber,a.start_position_address address,b.photo_time createTime
+FROM task a JOIN task_photo b on a.fd_id=b.task_id  JOIN region c on c.fd_id=a.current_region_id  
+WHERE a.state=1 and b.state =1 and b.photo_id=#{photoId}
+	</select>
+	
+	<select id="getAuditPhoto"  parameterType="Object"  resultMap="BaseResultMap">
+	SELECT DISTINCT photo_type,task_id,photo_id,mobile,photo_time,gps,city FROM task_photo WHERE task_id=#{taskId} and acceptance_result=#{acceptanceResult}
+	</select>
+</mapper>

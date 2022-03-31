@@ -24,7 +24,7 @@
 		<hwagainsso.version>1.0.1</hwagainsso.version>
 		<springBoot.version>1.4.3.RELEASE</springBoot.version>
 		<shiro.version>1.2.4</shiro.version>
-		<springframework.version>4.3.5.RELEASE</springframework.version>
+		<springframework.version>5.3.18</springframework.version>
 		<springfox.swagger.version>2.5.0</springfox.swagger.version>
 		<zookeeper.version>3.4.6</zookeeper.version>
 		<zookeeper.client.version>0.1.0</zookeeper.client.version>
